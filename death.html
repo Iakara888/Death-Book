@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Death Book</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+    body {
+      background: #0b0b0b;
+      color: #e63946;
+      font-family: 'Creepster', cursive, Arial, sans-serif;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 0 20px;
+      user-select: none;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      text-shadow: 0 0 10px #e63946;
+      margin-bottom: 30px;
+      letter-spacing: 3px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #e63946;
+      background: #1a1a1a;
+      color: #e63946;
+      font-family: 'Creepster', cursive;
+      transition: background 0.3s ease;
+    }
+
+    input::placeholder {
+      color: #7f1d1d;
+      font-style: italic;
+    }
+
+    input:focus, button:hover {
+      background: #e63946;
+      color: #0b0b0b;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 0 20px #e63946;
+    }
+
+    ul {
+      margin-top: 30px;
+      padding-left: 20px;
+      color: #ddd;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 18px;
+      text-shadow: 0 0 5px #000;
+      max-height: 300px;
+      overflow-y: auto;
+      border-top: 1px solid #e63946;
+    }
+
+    li {
+      padding: 8px 0;
+      border-bottom: 1px solid #4a0000;
+      letter-spacing: 1px;
+      user-select: text;
+    }
+
+    /* Scrollbar style for dark theme */
+    ul::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ul::-webkit-scrollbar-thumb {
+      background-color: #e63946;
+      border-radius: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Death Book</h1>
+  <input id="nameInput" placeholder="Write a name..." autocomplete="off" />
+  <button id="addBtn">Add Name</button>
+  <ul id="nameList"></ul>
+
+  <script>
+    const input = document.getElementById('nameInput');
+    const addBtn = document.getElementById('addBtn');
+    const nameList = document.getElementById('nameList');
+
+    let names = JSON.parse(localStorage.getItem('deathBookNames')) || [];
+
+    function renderNames() {
+      nameList.innerHTML = '';
+      names.forEach(name => {
+        const li = document.createElement('li');
+        li.textContent = name;
+        nameList.appendChild(li);
+      });
+    }
+
+    addBtn.addEventListener('click', () => {
+      const name = input.value.trim();
+      if (name === '') {
+        alert('Please write a name');
+        return;
+      }
+      names.push(name);
+      localStorage.setItem('deathBookNames', JSON.stringify(names));
+      renderNames();
+      input.value = '';
+      input.focus();
+    });
+
+    renderNames();
+  </script>
+</body>
+</html>
